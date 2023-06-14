@@ -20,7 +20,7 @@ For technical details, please refer to our full paper on [arXiv](https://arxiv.o
 git clone git@github.com:BBBBchan/CorrMatch.git
 cd CorrMatch
 conda create -n corrmatch python=3.8
-conda activate unimatch
+conda activate corrmatch
 conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.7 -c pytorch -c nvidia
 pip install opencv-python tqdm einops
 ```
