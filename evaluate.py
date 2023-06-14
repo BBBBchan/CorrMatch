@@ -1,7 +1,22 @@
-import torch
+import argparse
+import os
 import numpy as np
+import torch
 import torch.distributed as dist
+from util.dist_helper import setup_distributed
+from model.semseg.deeplabv3plus import DeepLabV3Plus
+
+from torch.utils.data import DataLoader
+import yaml
+from dataset.semi import SemiDataset
 from util.utils import AverageMeter, intersectionAndUnion
+
+parser = argparse.ArgumentParser(description='Semi-Supervised Semantic Segmentation')
+parser.add_argument('--config', type=str, required=True)
+parser.add_argument('--checkpoint_path', type=str, required=True)
+parser.add_argument('--local_rank', default=0, type=int)
+parser.add_argument('--port', default=None, type=int)
+args = parser.parse_args()
 
 
 def evaluate(model, loader, mode, cfg):
@@ -60,3 +75,33 @@ def evaluate(model, loader, mode, cfg):
     return_dict['mIOU'] = mIOU
 
     return return_dict
+
+
+def main():
+    rank, word_size = setup_distributed(port=args.port)
+    cfg = yaml.load(open(args.config, "r"), Loader=yaml.Loader)
+
+    model = DeepLabV3Plus(cfg)
+    model.load_state_dict(torch.load(args.checkpoint_path))
+    model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
+    model.cuda()
+
+    local_rank = int(os.environ["LOCAL_RANK"])
+    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank],
+                                                      output_device=local_rank, find_unused_parameters=False)
+
+    valset = SemiDataset(cfg['dataset'], cfg['data_root'], 'val')
+    valsampler = torch.utils.data.distributed.DistributedSampler(valset)
+    valloader = DataLoader(valset, batch_size=1, pin_memory=True, num_workers=4,
+                           drop_last=False, sampler=valsampler)
+
+    model.eval()
+    res_val = evaluate(model, valloader, 'original', cfg)
+    mIOU = res_val['mIOU']
+    iou_class = res_val['iou_class']
+    print(mIOU)
+    print(iou_class)
+
+
+if __name__ == '__main__':
+    main()
