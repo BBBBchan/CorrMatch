@@ -26,23 +26,21 @@ pip install opencv-python tqdm einops
 ```
 
 ### Pretrained Backbone:
-
 [ResNet-101](https://drive.google.com/file/d/1Rx0legsMolCWENpfvE2jUScT3ogalMO8/view?usp=sharing)
+```bash
+mkdir pretrained
+```
+Please put the pretrained model under `pretrained` dictionary.
 
-```
-├── ./pretrained
-    ├── resnet101.pth
-```
 
 ### Dataset:
 
-- Pascal: [JPEGImages](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) | [SegmentationClass](https://drive.google.com/file/d/1ikrDlsai5QSf2GiSUR3f8PZUzyTubcuF/view?usp=sharing)
+- Pascal VOC 2012: [JPEGImages](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) | [SegmentationClass](https://drive.google.com/file/d/1ikrDlsai5QSf2GiSUR3f8PZUzyTubcuF/view?usp=sharing)
 - Cityscapes: [leftImg8bit](https://www.cityscapes-dataset.com/file-handling/?packageID=3) | [gtFine](https://drive.google.com/file/d/1E_27g9tuHm6baBqcA7jct_jqcGA89QPm/view?usp=sharing)
 
-Please modify the dataset path in configuration files.
+Please modify the dataset path in configuration files.*The groundtruth mask ids have already been pre-processed. You may use them directly.*
 
-*The groundtruth mask ids have already been pre-processed. You may use them directly.*
-
+Your dataset path may look like:
 ```
 ├── [Your Pascal Path]
     ├── JPEGImages
@@ -51,7 +49,6 @@ Please modify the dataset path in configuration files.
 ├── [Your Cityscapes Path]
     ├── leftImg8bit
     └── gtFine
-    
 ```
 
 ## Usage

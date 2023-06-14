@@ -2,7 +2,7 @@
 dataset: cityscapes
 nclass: 19
 crop_size: 769
-data_root: ../../datasets/cityscapes/
+data_root: your/cityscape/path
 
 # arguments for training
 epochs: 240
