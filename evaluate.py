@@ -11,13 +11,6 @@ import yaml
 from dataset.semi import SemiDataset
 from util.utils import AverageMeter, intersectionAndUnion
 
-parser = argparse.ArgumentParser(description='Semi-Supervised Semantic Segmentation')
-parser.add_argument('--config', type=str, required=True)
-parser.add_argument('--checkpoint_path', type=str, required=True)
-parser.add_argument('--local_rank', default=0, type=int)
-parser.add_argument('--port', default=None, type=int)
-args = parser.parse_args()
-
 
 def evaluate(model, loader, mode, cfg):
     return_dict = {}
@@ -78,7 +71,13 @@ def evaluate(model, loader, mode, cfg):
 
 
 def main():
-    rank, word_size = setup_distributed(port=args.port)
+    parser = argparse.ArgumentParser(description='Semi-Supervised Semantic Segmentation')
+    parser.add_argument('--config', type=str, required=True)
+    parser.add_argument('--checkpoint_path', type=str, required=True)
+    parser.add_argument('--local_rank', default=0, type=int)
+    parser.add_argument('--port', default=None, type=int)
+    args = parser.parse_args()
+    setup_distributed(port=args.port)
     cfg = yaml.load(open(args.config, "r"), Loader=yaml.Loader)
 
     model = DeepLabV3Plus(cfg)
