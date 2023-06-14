@@ -3,7 +3,7 @@
 This repository contains the official implementation of the following paper:
 
 > **[CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation](https://arxiv.org/abs/2306.04300)**</br>
-> [Boyuan Sun](https://github.com/BBBBchan/CorrMatch), [Lei Qi](https://github.com/BBBBchan/CorrMatch), [Weifeng Yuan](https://github.com/BBBBchan/CorrMatch), [Weifeng Yuan](https://github.com/BBBBchan/CorrMatch), [Le Zhang](http://zhangleuestc.cn/), [Ming-Ming Cheng](https://mmcheng.net/cmm/),  [Qibin Hou](https://houqb.github.io/)</br>
+> [Boyuan Sun](https://github.com/BBBBchan/CorrMatch), [Yuqi Yang](https://github.com/BBBBchan/CorrMatch), [Weifeng Yuan](https://github.com/BBBBchan/CorrMatch), [Le Zhang](http://zhangleuestc.cn/), [Ming-Ming Cheng](https://mmcheng.net/cmm/),  [Qibin Hou](https://houqb.github.io/)</br>
 
 ## Overview
 CorrMatch provides a solution for mining more high-quality regions from the unlabeled images to leverage the unlabeled data more efficiently for consistency regularization.
