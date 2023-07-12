@@ -59,7 +59,7 @@ rank, word_size = setup_distributed(port=args.port)
 cfg = yaml.load(open('configs/pascal.yaml', "r"), Loader=yaml.Loader)
 
 model = DeepLabV3Plus(cfg)
-model.load_state_dict(torch.load('checkpoints/resnet101_73.931.pth'))
+model.load_state_dict(torch.load('Your/checkpoint/path'))
 model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
 model.cuda()
 
@@ -88,7 +88,6 @@ with torch.no_grad():
         mask_fliter[pred_conf_fliter] = 255
         corr_map = res['corr_map']
         c4_feats = res['c4']
-        corr_map = F.softmax(corr_map, dim=-1)
 
         for i in range(pred_mask.shape[0]):
             file_name = ids[i].split(' ')[0].split('/')[1].split('.')[0]
