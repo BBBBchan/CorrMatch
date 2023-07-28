@@ -100,7 +100,7 @@ If you find our repo useful for your research, please consider citing our paper:
 ```bibtex
 @article{sun2023corrmatch,
   title={CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation},
-  author={Sun, Boyuan and Yang, Yuqi and Zhang, Le and Cheng, Ming-Ming and Hou, Qibin},
+  author={Sun, Boyuan and Yang, Yuqi and Yuan, Weifeng and Zhang, Le and Cheng, Ming-Ming and Hou, Qibin},
   journal={arXiv preprint arXiv:2306.04300},
   year={2023}
 }
