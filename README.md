@@ -9,7 +9,7 @@ This repository contains the official implementation of the following paper:
 CorrMatch provides a solution for mining more high-quality regions from the unlabeled images to leverage the unlabeled data more efficiently for consistency regularization.
 ![avatar](./images/cvpr_pipeline.png "pipeline")
 
-We first introduce an adaptive threshold updating strategy with a relaxed initialization to expand the high-quality regions. Then we propose to propagate high-confidence predictions with correlation maps.
+Previous approaches mostly employ complicated training strategies to leverage unlabeled data but overlook the role of correlation maps in modeling the relationships between pairs of locations. Thus, we introduce two label propagation strategies (Pixel Propagation and Region Propagation) with the help of correlation maps. 
 
 For technical details, please refer to our full paper on [arXiv](https://arxiv.org/abs/2306.04300).
 ## Getting Started
@@ -100,7 +100,7 @@ If you find our repo useful for your research, please consider citing our paper:
 ```bibtex
 @article{sun2023corrmatch,
   title={CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation},
-  author={Sun, Boyuan and Yang, Yuqi and Yuan, Weifeng and Zhang, Le and Cheng, Ming-Ming and Hou, Qibin},
+  author={Sun, Boyuan and Yang, Yuqi and Zhang, Le and Cheng, Ming-Ming and Hou, Qibin},
   journal={arXiv preprint arXiv:2306.04300},
   year={2023}
 }
