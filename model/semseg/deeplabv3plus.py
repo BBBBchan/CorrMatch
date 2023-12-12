@@ -39,6 +39,7 @@ class DeepLabV3Plus(nn.Module):
 
         self.classifier = nn.Conv2d(256, cfg['nclass'], 1, bias=True)
 
+
         if self.is_corr:
             self.corr = Corr(nclass=cfg['nclass'])
             self.proj = nn.Sequential(
@@ -62,7 +63,9 @@ class DeepLabV3Plus(nn.Module):
             out, out_fp = outs.chunk(2)
             if use_corr:
                 proj_feats = self.proj(c4)
-                corr_out = self.corr(proj_feats, out)
+                corr_out_dict = self.corr(proj_feats, out)
+                dict_return['corr_map'] = corr_out_dict['corr_map']
+                corr_out = corr_out_dict['out']
                 corr_out = F.interpolate(corr_out, size=(h, w), mode="bilinear", align_corners=True)
                 dict_return['corr_out'] = corr_out
             dict_return['out'] = out
@@ -75,7 +78,9 @@ class DeepLabV3Plus(nn.Module):
         out = F.interpolate(out, size=(h, w), mode="bilinear", align_corners=True)
         if use_corr:
             proj_feats = self.proj(c4)
-            corr_out = self.corr(proj_feats, out)
+            corr_out_dict = self.corr(proj_feats, out)
+            dict_return['corr_map'] = corr_out_dict['corr_map']
+            corr_out = corr_out_dict['out']
             corr_out = F.interpolate(corr_out, size=(h, w), mode="bilinear", align_corners=True)
             dict_return['corr_out'] = corr_out
         dict_return['out'] = out
@@ -151,7 +156,9 @@ class Corr(nn.Module):
         self.conv2 = nn.Conv2d(256, self.nclass, kernel_size=1, stride=1, padding=0, bias=True)
 
     def forward(self, feature_in, out):
+        dict_return = {}
         h_in, w_in = math.ceil(feature_in.shape[2] / (1)), math.ceil(feature_in.shape[3] / (1))
+        h_out, w_out = out.shape[2], out.shape[3]
         out = F.interpolate(out.detach(), (h_in, w_in), mode='bilinear', align_corners=True)
         feature = F.interpolate(feature_in, (h_in, w_in), mode='bilinear', align_corners=True)
         f1 = rearrange(self.conv1(feature), 'n c h w -> n c (h w)')
@@ -159,6 +166,26 @@ class Corr(nn.Module):
         out_temp = rearrange(out, 'n c h w -> n c (h w)')
         corr_map = torch.matmul(f1.transpose(1, 2), f2) / torch.sqrt(torch.tensor(f1.shape[1]).float())
         corr_map = F.softmax(corr_map, dim=-1)
-        out = rearrange(torch.matmul(out_temp, corr_map), 'n c (h w) -> n c h w', h=h_in, w=w_in)
-        return out
+        corr_map_sample = self.sample(corr_map.detach(), h_in, w_in)
+        dict_return['corr_map'] = self.normalize_corr_map(corr_map_sample, h_in, w_in, h_out, w_out)
+        dict_return['out'] = rearrange(torch.matmul(out_temp, corr_map), 'n c (h w) -> n c h w', h=h_in, w=w_in)
+        return dict_return
+
+    def sample(self, corr_map, h_in, w_in):
+        index = torch.randint(0, h_in * w_in - 1, [128])
+        corr_map_sample = corr_map[:, index.long(), :]
+        return corr_map_sample
+
+    def normalize_corr_map(self, corr_map, h_in, w_in, h_out, w_out):
+        n, m, hw = corr_map.shape
+        corr_map = rearrange(corr_map, 'n m (h w) -> (n m) 1 h w', h=h_in, w=w_in)
+        corr_map = F.interpolate(corr_map, (h_out, w_out), mode='bilinear', align_corners=True)
+
+        corr_map = rearrange(corr_map, '(n m) 1 h w -> (n m) (h w)', n=n, m=m)
+        range_ = torch.max(corr_map, dim=1, keepdim=True)[0] - torch.min(corr_map, dim=1, keepdim=True)[0]
+        temp_map = ((- torch.min(corr_map, dim=1, keepdim=True)[0]) + corr_map) / range_
+        corr_map = (temp_map > 0.5)
+        norm_corr_map = rearrange(corr_map, '(n m) (h w) -> n m h w', n=n, m=m, h=h_out, w=w_out)
+        return norm_corr_map
+
 

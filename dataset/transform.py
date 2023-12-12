@@ -41,6 +41,13 @@ def normalize(img, mask=None):
     return img
 
 
+def resize_certain(img, ratio_range):
+    w, h = img.size
+    ow = int(w * ratio_range + 0.5)
+    oh = int(h * ratio_range + 0.5)
+    img = img.resize((ow, oh), Image.BILINEAR)
+    return img
+
 def resize(img, mask, ratio_range):
     w, h = img.size
     long_side = random.randint(int(max(h, w) * ratio_range[0]), int(max(h, w) * ratio_range[1]))

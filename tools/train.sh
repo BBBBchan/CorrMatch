@@ -2,9 +2,9 @@
 now=$(date +"%Y%m%d_%H%M%S")
 
 config=configs/pascal.yaml
-labeled_id_path=partitions/pascal/1464/labeled.txt
-unlabeled_id_path=partitions/pascal/1464/unlabeled.txt
-save_path=exp/pascal/1464/corrmatch
+labeled_id_path=partitions/pascal/92/labeled.txt
+unlabeled_id_path=partitions/pascal/92/unlabeled.txt
+save_path=exp/pascal/92/corrmatch
 #config=configs/cityscapes.yaml
 #labeled_id_path=partitions/cityscapes/1_4/labeled.txt
 #unlabeled_id_path=partitions/cityscapes/1_4/unlabeled.txt

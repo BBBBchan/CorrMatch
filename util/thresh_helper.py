@@ -36,13 +36,16 @@ class ThreshController:
             pred_conf_cls_all = pred_conf[cls_map]
             cls_max_conf = pred_conf_cls_all.max()
             new_global += cls_max_conf
-        return_dict['new_global'] = new_global / cls_num
+        if cls_num > 0:
+            return_dict['new_global'] = new_global / cls_num
+        else:
+            return_dict['new_global'] = None
 
         return return_dict
 
     def thresh_update(self, pred, ignore_mask=None, update_g=False):
         thresh = self.new_global_mask_pooling(pred, ignore_mask)
-        if update_g:
+        if update_g and thresh['new_global'] is not None:
             self.thresh_global = self.momentum * self.thresh_global + (1 - self.momentum) * thresh['new_global']
 
     def get_thresh_global(self):

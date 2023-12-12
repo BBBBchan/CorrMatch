@@ -20,7 +20,7 @@ def evaluate(model, loader, mode, cfg):
     union_meter = AverageMeter()
 
     with torch.no_grad():
-        for img, mask, ids in loader:
+        for img, mask, ids, img_ori in loader:
             img = img.cuda()
             b, _, h, w = img.shape
             if mode == 'sliding_window':
