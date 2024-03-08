@@ -5,6 +5,7 @@ This repository contains the official implementation of the following paper:
 > **[CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation](https://arxiv.org/abs/2306.04300)**</br>
 > [Boyuan Sun](https://github.com/BBBBchan/CorrMatch), [Yuqi Yang](https://github.com/BBBBchan/CorrMatch), [Le Zhang](http://zhangleuestc.cn/), [Ming-Ming Cheng](https://mmcheng.net/cmm/),  [Qibin Hou](https://houqb.github.io/)</br>
 
+🔥 Our paper is accepted by IEEE Computer Vision and Pattern Recognition (CVPR) 2024 !!!
 ## Overview
 CorrMatch provides a solution for mining more high-quality regions from the unlabeled images to leverage the unlabeled data more efficiently for consistency regularization.
 ![avatar](./images/cvpr_pipeline.png "pipeline")
@@ -101,8 +102,8 @@ If you find our repo useful for your research, please consider citing our paper:
 @article{sun2023corrmatch,
   title={CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation},
   author={Sun, Boyuan and Yang, Yuqi and Zhang, Le and Cheng, Ming-Ming and Hou, Qibin},
-  journal={arXiv preprint arXiv:2306.04300},
-  year={2023}
+  journal={IEEE Computer Vision and Pattern Recognition (CVPR)},
+  year={2024}
 }
 ```
 
