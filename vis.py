@@ -75,7 +75,7 @@ valloader = DataLoader(valset, batch_size=1, pin_memory=True, num_workers=4,
 model.eval()
 
 with torch.no_grad():
-    for img, mask, ids in valloader:
+    for img, mask, ids, img_ori in valloader:
         dist.barrier()
         img = img.cuda()
         b, _, h, w = img.shape
