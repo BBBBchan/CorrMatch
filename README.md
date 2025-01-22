@@ -1,9 +1,11 @@
-# CorrMatch
+# CorrMatch (CVPR 2024)
 
 This repository contains the official implementation of the following paper:
 
 > **[CorrMatch: Label Propagation via Correlation Matching for Semi-Supervised Semantic Segmentation](https://arxiv.org/abs/2306.04300)**</br>
-> [Boyuan Sun](https://github.com/BBBBchan/CorrMatch), [Yuqi Yang](https://github.com/BBBBchan/CorrMatch), [Le Zhang](http://zhangleuestc.cn/), [Ming-Ming Cheng](https://mmcheng.net/cmm/),  [Qibin Hou](https://houqb.github.io/)</br>
+> [Boyuan Sun](https://bbbbchan.github.io), [Yuqi Yang](https://github.com/BBBBchan/CorrMatch), [Le Zhang](http://zhangleuestc.cn/), [Ming-Ming Cheng](https://mmcheng.net/cmm/),  [Qibin Hou](https://houqb.github.io/)</br>
+
+🔥 The **Jittor vsersion implementation** of CorrMatch is available at [Jittor Version](https://github.com/BBBBchan/CorrMatch-Jittor) !!!
 
 🔥 Our paper is accepted by IEEE Computer Vision and Pattern Recognition (CVPR) 2024 !!!
 ## Overview
